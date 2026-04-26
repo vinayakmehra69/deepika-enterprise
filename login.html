@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register | Deepika Enterprise</title>
+  <link rel="icon" type="image/avif" href="images/logo.avif" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e6340 0%, #2d7a4f 100%); padding: 100px 16px 40px; }
+    .auth-card { background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); width: 100%; max-width: 480px; overflow: hidden; }
+    .auth-card-header { background: linear-gradient(135deg, #1e6340, #3d9a65); padding: 32px; text-align: center; }
+    .auth-card-header img { width: 52px; height: 52px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.4); margin-bottom: 12px; }
+    .auth-card-header h2 { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 0 0 4px; }
+    .auth-card-header p { color: rgba(255,255,255,0.8); font-size: 0.85rem; margin: 0; }
+    .auth-tabs { display: flex; border-bottom: 2px solid #f0f0f0; }
+    .auth-tab { flex: 1; padding: 14px; text-align: center; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #888; border: none; background: none; transition: all 0.2s; }
+    .auth-tab.active { color: #1e6340; border-bottom: 3px solid #1e6340; margin-bottom: -2px; }
+    .auth-body { padding: 32px; }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #444; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select { width: 100%; padding: 11px 14px; border: 1.5px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: #2d7a4f; }
+    .auth-submit { width: 100%; padding: 13px; background: linear-gradient(135deg, #1e6340, #3d9a65); color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: opacity 0.2s; margin-top: 4px; font-family: inherit; }
+    .auth-submit:hover { opacity: 0.9; }
+    .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .auth-msg { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 0.88rem; text-align: center; display: none; }
+    .auth-msg.error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; display: block; }
+    .auth-msg.success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; display: block; }
+    .divider { text-align: center; color: #aaa; font-size: 0.82rem; margin: 18px 0; position: relative; }
+    .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 42%; height: 1px; background: #e0e0e0; }
+    .divider::before { left: 0; } .divider::after { right: 0; }
+    .back-home { display: block; text-align: center; margin-top: 16px; color: #1e6340; font-size: 0.85rem; text-decoration: none; }
+    .back-home:hover { text-decoration: underline; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } .auth-body { padding: 24px; } }
+  </style>
+</head>
+<body>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="images/logo.avif" alt="Deepika Enterprise Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-main">Deepika Enterprise</span>
+          <span class="logo-sub">Since 1993</span>
+        </div>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#products">Products</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <img src="images/logo.avif" alt="Logo" />
+        <h2>Deepika Enterprise</h2>
+        <p>Trusted supplier of plastic raw materials since 1993</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+      </div>
+
+      <div class="auth-body">
+
+        <!-- LOGIN FORM -->
+        <form class="auth-form active" id="form-login" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="login-email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="login-password" placeholder="Your password" required />
+          </div>
+          <button class="auth-submit" type="submit" id="login-btn">Sign In</button>
+          <div class="auth-msg" id="login-msg"></div>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form class="auth-form" id="form-register" onsubmit="handleRegister(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="reg-firstname" placeholder="Raj" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="reg-lastname" placeholder="Sharma" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="reg-phone" placeholder="+91 98765 43210" required />
+          </div>
+          <div class="form-group">
+            <label>Company / Business Name</label>
+            <input type="text" id="reg-company" placeholder="Your Company Pvt. Ltd." />
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="reg-city" placeholder="Delhi" />
+          </div>
+          <div class="form-group">
+            <label>What do you buy?</label>
+            <select id="reg-interest">
+              <option value="">Select product</option>
+              <option value="BOPP">BOPP Film Rolls</option>
+              <option value="LD">LD Polyethylene</option>
+              <option value="Super LD">Super LD</option>
+              <option value="BP">BP Granules</option>
+              <option value="Packaging">Plastic Bags & Rolls</option>
+              <option value="Multiple">Multiple Products</option>
+            </select>
+          </div>
+          <div class="divider">account credentials</div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="reg-email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="reg-password" placeholder="Min. 6 characters" required minlength="6" />
+          </div>
+          <button class="auth-submit" type="submit" id="register-btn">Create Account</button>
+          <div class="auth-msg" id="register-msg"></div>
+        </form>
+
+        <a href="index.html" class="back-home">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ============================================================
+    // PASTE YOUR FIREBASE CONFIG HERE (replace these values)
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "PASTE_YOUR_API_KEY",
+      authDomain: "PASTE_YOUR_AUTH_DOMAIN",
+      projectId: "PASTE_YOUR_PROJECT_ID",
+      storageBucket: "PASTE_YOUR_STORAGE_BUCKET",
+      messagingSenderId: "PASTE_YOUR_SENDER_ID",
+      appId: "PASTE_YOUR_APP_ID"
+    };
+    // ============================================================
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.switchTab = function(tab) {
+      document.getElementById('form-login').classList.toggle('active', tab === 'login');
+      document.getElementById('form-register').classList.toggle('active', tab === 'register');
+      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+      document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+    };
+
+    window.handleLogin = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('login-btn');
+      const msg = document.getElementById('login-msg');
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+      msg.className = 'auth-msg';
+      try {
+        await signInWithEmailAndPassword(auth,
+          document.getElementById('login-email').value,
+          document.getElementById('login-password').value
+        );
+        window.location.href = 'account.html';
+      } catch (err) {
+        msg.className = 'auth-msg error';
+        msg.textContent = friendlyError(err.code);
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    };
+
+    window.handleRegister = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('register-btn');
+      const msg = document.getElementById('register-msg');
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+      msg.className = 'auth-msg';
+      try {
+        const cred = await createUserWithEmailAndPassword(auth,
+          document.getElementById('reg-email').value,
+          document.getElementById('reg-password').value
+        );
+        await setDoc(doc(db, 'users', cred.user.uid), {
+          firstName: document.getElementById('reg-firstname').value,
+          lastName: document.getElementById('reg-lastname').value,
+          phone: document.getElementById('reg-phone').value,
+          company: document.getElementById('reg-company').value,
+          city: document.getElementById('reg-city').value,
+          interest: document.getElementById('reg-interest').value,
+          email: document.getElementById('reg-email').value,
+          createdAt: serverTimestamp()
+        });
+        window.location.href = 'account.html';
+      } catch (err) {
+        msg.className = 'auth-msg error';
+        msg.textContent = friendlyError(err.code);
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+      }
+    };
+
+    function friendlyError(code) {
+      const map = {
+        'auth/email-already-in-use': 'This email is already registered. Please sign in.',
+        'auth/invalid-email': 'Please enter a valid email address.',
+        'auth/weak-password': 'Password must be at least 6 characters.',
+        'auth/user-not-found': 'No account found with this email.',
+        'auth/wrong-password': 'Incorrect password. Please try again.',
+        'auth/invalid-credential': 'Incorrect email or password. Please try again.',
+        'auth/too-many-requests': 'Too many attempts. Please wait a moment.',
+      };
+      return map[code] || 'Something went wrong. Please try again.';
+    }
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>
