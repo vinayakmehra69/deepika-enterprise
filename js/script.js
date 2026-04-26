@@ -56,24 +56,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* --- CONTACT FORM HANDLER --- */
   const form = document.getElementById('contactForm');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const product = document.getElementById('product').value;
-    const message = document.getElementById('message').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const product = document.getElementById('product').value;
+      const message = document.getElementById('message').value.trim();
 
-    if (!name || !phone) {
-      alert('Please fill in your name and phone number.');
-      return;
-    }
+      if (!name || !phone) {
+        alert('Please fill in your name and phone number.');
+        return;
+      }
 
-    // For now: show confirmation. Later this can connect to backend/email.
-    const summary = `Thank you ${name}!\n\nWe have received your inquiry${product ? ' for ' + product : ''}.\nWe will contact you at ${phone} within 24 hours.`;
-    alert(summary);
-    form.reset();
-  });
+      const summary = `Thank you ${name}!\n\nWe have received your inquiry${product ? ' for ' + product : ''}.\nWe will contact you at ${phone} within 24 hours.`;
+      alert(summary);
+      form.reset();
+    });
+  }
 
   /* --- SCROLL REVEAL ANIMATION --- */
   const observer = new IntersectionObserver((entries) => {

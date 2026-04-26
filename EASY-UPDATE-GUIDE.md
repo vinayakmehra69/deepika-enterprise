@@ -144,6 +144,55 @@ https://vinayakmehra69.github.io/deepika-enterprise
 
 ---
 
+## HOW TO ADD A REAL PRODUCT TO A CATEGORY PAGE
+
+Each category now has its own page (bopp.html, hp.html, ld.html, superld.html, bp.html, packaging.html).
+Each page has 6 placeholder cards ready to fill with your real products.
+
+**Step 1:** Open the category file you want to edit.
+For example, to add an LD product: open `ld.html`
+
+**Step 2:** Find a placeholder card.
+Use **Ctrl+F** and search for: `PLACEHOLDER`
+This will highlight each empty card.
+
+**Step 3:** Replace the placeholder content in that card:
+
+| Find this | Replace with |
+|-----------|-------------|
+| `📷` (camera emoji in the card) | Delete the `<div class="placeholder-img">` block and add: `<img src="images/yourphoto.jpg" alt="Product name" style="width:100%;height:200px;object-fit:cover;" />` |
+| `Product description goes here` | Your real product description |
+| `₹ 000 /kg` | Your real price, e.g. `₹ 125/kg onwards` |
+
+**Step 4:** Delete the orange label tag from that card.
+Find and delete this entire line:
+```html
+<span class="placeholder-label">Placeholder — Replace with real product</span>
+```
+
+**Step 5:** Save the file.
+
+**Step 6:** Push to GitHub to go live:
+```bash
+git add .
+git commit -m "Added [product name] to [category] page"
+git push origin main
+```
+
+**Step 7:** Wait 2 minutes → your product is live on the website!
+
+---
+
+**Category page URLs (live):**
+- bopp.html → vinayakmehra69.github.io/deepika-enterprise/bopp.html
+- hp.html → vinayakmehra69.github.io/deepika-enterprise/hp.html
+- ld.html → vinayakmehra69.github.io/deepika-enterprise/ld.html
+- superld.html → vinayakmehra69.github.io/deepika-enterprise/superld.html
+- bp.html → vinayakmehra69.github.io/deepika-enterprise/bp.html
+- packaging.html → vinayakmehra69.github.io/deepika-enterprise/packaging.html
+
+---
+
 ## NEED HELP?
 
 If you get stuck, contact your web developer or search:
